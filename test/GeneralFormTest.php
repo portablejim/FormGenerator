@@ -32,7 +32,36 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $testForm->addField($testField1);
         $actualOutput = $testForm->getFields();
         $this->assertSame($testOutputArray, $actualOutput);
+    }
 
+    public function testTwoInitialFields()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testOutputArray = array("dummy1" => $testField1, "dummy2" => $testField2);
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $actualOutput = $testForm->getFields();
+        $this->assertSame($testOutputArray, $actualOutput);
+    }
 
+    public function testFillDataNormal()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $data1 = "apple";
+        $data2 = "banana";
+        $testFormData = array("dummy1" => $data1, "dummy2" => $data2);
+        $testForm->fillFields($testFormData);
+
+        $testField1 = $testForm->getFields()["dummy1"];
+        $testField2 = $testForm->getFields()["dummy2"];
+
+        $this->assertSame($testField1->fillDataCalled, array($data1));
+        $this->assertSame($testField2->fillDataCalled, array($data2));
     }
 }

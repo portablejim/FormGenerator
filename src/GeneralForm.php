@@ -49,6 +49,21 @@ abstract class GeneralForm implements IForm
      */
     public function fillFields(array $formData)
     {
+        assert(is_array($this->formFields));
 
+        foreach($this->formFields as $field)
+        {
+            if($field instanceof IFormElement && is_array($formData))
+            {
+                if(array_key_exists($field->getName(), $formData))
+                {
+                    $field->fillData($formData[$field->getName()]);
+                }
+            }
+            else
+            {
+                throw new \UnexpectedValueException("Form data should be an array. (or data structure is messed up.)");
+            }
+        }
     }
 }

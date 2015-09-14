@@ -14,6 +14,7 @@ use formgenerator\IFormElement;
 class DummyFormElement implements IFormElement
 {
     public $name;
+    public $fillDataCalled = array();
 
         function __construct($name)
         {
@@ -27,6 +28,7 @@ class DummyFormElement implements IFormElement
 
     public function fillData($data)
     {
+        $this->fillDataCalled[] = $data;
     }
 
     public function isValid()
