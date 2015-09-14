@@ -64,4 +64,43 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $this->assertSame($testField1->fillDataCalled, array($data1));
         $this->assertSame($testField2->fillDataCalled, array($data2));
     }
+
+    public function testFillDataMissing()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $data1 = "apple";
+        $data2 = "banana";
+        $testFormData = array("dummy1" => $data1, "dummyBad" => $data2);
+        $testForm->fillFields($testFormData);
+
+        $testField1 = $testForm->getFields()["dummy1"];
+        $testField2 = $testForm->getFields()["dummy2"];
+
+        $this->assertSame($testField1->fillDataCalled, array($data1));
+        $this->assertNotSame($testField2->fillDataCalled, array($data2));
+    }
+
+    public function testFillDataExtra()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $data1 = "apple";
+        $data2 = "banana";
+        $data3 = "carrot";
+        $testFormData = array("dummy1" => $data1, "dummy2" => $data2, "dummyBad" => $data3);
+        $testForm->fillFields($testFormData);
+
+        $testField1 = $testForm->getFields()["dummy1"];
+        $testField2 = $testForm->getFields()["dummy2"];
+
+        $this->assertSame($testField1->fillDataCalled, array($data1));
+        $this->assertSame($testField2->fillDataCalled, array($data2));
+    }
 }
