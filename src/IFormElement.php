@@ -13,6 +13,8 @@ interface IFormElement
 {
     public function getName();
 
+    public function getValue();
+
     public function fillData($data);
 
     public function isValid();

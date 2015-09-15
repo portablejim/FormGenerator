@@ -26,6 +26,11 @@ class DummyFormElement implements IFormElement
         return $this->name;
     }
 
+    public function getValue()
+    {
+
+    }
+
     public function fillData($data)
     {
         $this->fillDataCalled[] = $data;
