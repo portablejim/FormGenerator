@@ -15,17 +15,18 @@ use formgenerator\IMailer;
 
 class EmailForm extends GeneralForm
 {
+    protected $mailer;
+
     function __construct($config, IMailer $mailer)
     {
-
+        $this->mailer = $mailer;
     }
 
     public function isValid()
     {
         foreach($this->formFields as $field)
         {
-            assert($field instanceof IFormElement);
-            if(!$field->isValid())
+            if($field instanceof IFormElement && !($field->isValid()))
             {
                 return false;
             }
@@ -35,7 +36,9 @@ class EmailForm extends GeneralForm
 
     public function submitForm($referringUri)
     {
-        // TODO: Implement submitForm() method.
+        if($this->isValid()) {
+            $this->mailer->sendMail("", "", "");
+        }
     }
 
     public function getFormdataArray()

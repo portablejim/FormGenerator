@@ -53,4 +53,21 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "", true));
         $this->assertTrue($testForm->isValid());
     }
+
+    public function testFormNoSubmitIfInvalid()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testConfig, $this->testMailer);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", false));
+        $testForm->submitForm("referringUrl");
+        $this->assertEquals(0, count($this->testMailer->mailSent));
+    }
+
+    public function testFormSubmitsToEmail()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testConfig, $this->testMailer);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "", true));
+        $testForm->submitForm("referringUrl");
+        $this->assertEquals(1, count($this->testMailer->mailSent));
+    }
 }
