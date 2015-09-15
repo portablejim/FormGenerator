@@ -19,7 +19,7 @@ class TestGeneralForm extends GeneralForm
         // TODO: Implement isValid() method.
     }
 
-    public function submitForm($referringUri)
+    public function submitForm($referringUrl, $ipAddress)
     {
         // TODO: Implement submitForm() method.
     }

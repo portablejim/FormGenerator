@@ -62,7 +62,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
     {
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", false));
-        $testForm->submitForm("referringUrl");
+        $testForm->submitForm("referringUrl", "1.2.3.4");
         $this->assertEquals(0, count($this->testMailer->mailSent));
     }
 
@@ -71,7 +71,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
-        $testForm->submitForm("referringUrl");
+        $testForm->submitForm("referringUrl", "1.2.3.4");
         $this->assertEquals(1, count($this->testMailer->mailSent));
     }
 
@@ -80,7 +80,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
-        $testForm->submitForm("referringUrl");
+        $testForm->submitForm("referringUrl", "1.2.3.4");
         $this->assertTrue(is_array($this->testMailer->mailSent), "mailSent not array");
         $this->assertEquals(1, count($this->testMailer->mailSent), "mailSent is empty");
         $this->assertSame($this->testTo, $this->testMailer->mailSent[0]['to']);
@@ -92,7 +92,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
-        $testForm->submitForm("referringUrl");
+        $testForm->submitForm("referringUrl", "1.2.3.4");
         $this->assertTrue(is_array($this->testMailer->mailSent), "mailSent not array");
         $this->assertEquals(1, count($this->testMailer->mailSent), "mailSent is empty");
         $this->assertSame($this->testSubject, $this->testMailer->mailSent[0]['subject']);
@@ -104,7 +104,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", true));
-        $testForm->submitForm("referringUrl");
+        $testForm->submitForm("referringUrl", "1.2.3.4");
 
         $testBody = "New response for form 'test1'\n"
             . "\n"

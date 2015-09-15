@@ -12,7 +12,7 @@ namespace formgenerator;
 interface IForm
 {
     /**
-     * @param IFormElement Field/Element to add to form's field list.
+     * @param IFormElement $element Field/Element to add to form's field list.
      * @return null
      */
     public function addField(IFormElement $element);
@@ -23,7 +23,7 @@ interface IForm
     public function getFields();
 
     /**
-     * @param array Associative array of 'field name' => 'value' to assign
+     * @param array $formData Associative array of 'field name' => 'value' to assign
      * values to fields according to their field name.
      * @return mixed
      */
@@ -31,7 +31,7 @@ interface IForm
 
     public function isValid();
 
-    public function submitForm($referringUri);
+    public function submitForm($referringUrl, $ipAddress);
 
     public function getFormdataArray();
 }

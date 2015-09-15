@@ -45,7 +45,7 @@ class EmailForm extends GeneralForm
         return true;
     }
 
-    public function submitForm($referringUri)
+    public function submitForm($referringUrl, $ipAddress)
     {
         if($this->isValid()) {
             $mailBody = sprintf("New response for form '%s'\n\n", $this->name);
