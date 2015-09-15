@@ -58,9 +58,6 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $testFormData = array("dummy1" => $data1, "dummy2" => $data2);
         $testForm->fillFields($testFormData);
 
-        $testField1 = $testForm->getFields()["dummy1"];
-        $testField2 = $testForm->getFields()["dummy2"];
-
         $this->assertSame($testField1->fillDataCalled, array($data1));
         $this->assertSame($testField2->fillDataCalled, array($data2));
     }
@@ -76,9 +73,6 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $data2 = "banana";
         $testFormData = array("dummy1" => $data1, "dummyBad" => $data2);
         $testForm->fillFields($testFormData);
-
-        $testField1 = $testForm->getFields()["dummy1"];
-        $testField2 = $testForm->getFields()["dummy2"];
 
         $this->assertSame($testField1->fillDataCalled, array($data1));
         $this->assertNotSame($testField2->fillDataCalled, array($data2));
@@ -96,9 +90,6 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $data3 = "carrot";
         $testFormData = array("dummy1" => $data1, "dummy2" => $data2, "dummyBad" => $data3);
         $testForm->fillFields($testFormData);
-
-        $testField1 = $testForm->getFields()["dummy1"];
-        $testField2 = $testForm->getFields()["dummy2"];
 
         $this->assertSame($testField1->fillDataCalled, array($data1));
         $this->assertSame($testField2->fillDataCalled, array($data2));
