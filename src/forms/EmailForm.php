@@ -10,6 +10,7 @@ namespace formgenerator\forms;
 
 
 use formgenerator\GeneralForm;
+use formgenerator\IFormElement;
 use formgenerator\IMailer;
 
 class EmailForm extends GeneralForm
@@ -21,6 +22,14 @@ class EmailForm extends GeneralForm
 
     public function isValid()
     {
+        foreach($this->formFields as $field)
+        {
+            assert($field instanceof IFormElement);
+            if(!$field->isValid())
+            {
+                return false;
+            }
+        }
         return true;
     }
 

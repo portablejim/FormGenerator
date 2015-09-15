@@ -10,7 +10,7 @@ namespace formgenerator;
 
 abstract class GeneralForm implements IForm
 {
-    private $formFields = array();
+    protected $formFields = array();
 
     /**
      * @param IFormElement $element Field/Element to add to form's field list.

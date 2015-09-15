@@ -38,12 +38,19 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testEmptyForm2()
+    public function testFormWithInvalidElementsIsInvalid()
     {
-        $currentTestConfig = array('type' => 'email',
-            'to' => $this->testTo,
-            'subject' => $this->testSubject);
-        $testForm = new \formgenerator\forms\EmailForm($currentTestConfig, $this->testMailer);
-        $testForm->submitForm("referringUrl");
+        $testForm = new \formgenerator\forms\EmailForm($this->testConfig, $this->testMailer);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "", false));
+        $this->assertFalse($testForm->isValid());
+    }
+
+    public function testFormWithNoInvalidElementsIsValid()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testConfig, $this->testMailer);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "", true));
+        $this->assertTrue($testForm->isValid());
     }
 }
