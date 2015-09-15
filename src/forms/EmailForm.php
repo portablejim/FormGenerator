@@ -17,9 +17,20 @@ class EmailForm extends GeneralForm
 {
     protected $mailer;
 
-    function __construct($config, IMailer $mailer)
+    protected $sendTo;
+    protected $sendSubject;
+    protected $name;
+
+    function __construct($name, $config, IMailer $mailer)
     {
         $this->mailer = $mailer;
+
+        if(is_array($config))
+        {
+            $this->sendTo = array_key_exists('destination', $config) ? $config['destination'] : "";
+            $this->sendSubject = "Response from online form";
+            $this->name = $name;
+        }
     }
 
     public function isValid()
@@ -37,7 +48,17 @@ class EmailForm extends GeneralForm
     public function submitForm($referringUri)
     {
         if($this->isValid()) {
-            $this->mailer->sendMail("", "", "");
+            $mailBody = sprintf("New response for form '%s'\n\n", $this->name);
+
+            foreach($this->formFields as $field)
+            {
+                if($field instanceof IFormElement)
+                {
+                    $mailBody .= sprintf("%s: %s\n", $field->getName(), $field->getValue());
+                }
+            }
+
+            $this->mailer->sendMail($this->sendTo, $this->sendSubject, $mailBody);
         }
     }
 
