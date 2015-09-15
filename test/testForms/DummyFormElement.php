@@ -14,12 +14,14 @@ use formgenerator\IFormElement;
 class DummyFormElement implements IFormElement
 {
     public $name;
+    public $value;
     public $fillDataCalled = array();
 
-        function __construct($name)
-        {
-            $this->name = $name;
-        }
+    function __construct($name, $value="")
+    {
+        $this->name = $name;
+        $this->value = $value;
+    }
 
     public function getName()
     {
@@ -28,7 +30,7 @@ class DummyFormElement implements IFormElement
 
     public function getValue()
     {
-
+        return $this->value;
     }
 
     public function fillData($data)
