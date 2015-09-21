@@ -20,6 +20,10 @@ class EmailForm extends GeneralForm
     protected $sendTo;
     protected $sendSubject;
     protected $name;
+    protected $title;
+    protected $description;
+    protected $buttonTextId;
+    protected $successTextId;
 
     function __construct($name, $config, IMailer $mailer)
     {
@@ -30,6 +34,10 @@ class EmailForm extends GeneralForm
             $this->sendTo = array_key_exists('destination', $config) ? $config['destination'] : "";
             $this->sendSubject = "Response from online form";
             $this->name = $name;
+            $this->title = array_key_exists('titleId', $config) ? $config['titleId'] : "";
+            $this->description = array_key_exists('descriptionId', $config) ? $config['descriptionId'] : "";
+            $this->buttonTextId = array_key_exists('buttonStringId', $config) ? $config['buttonStringId'] : "";
+            $this->successTextId = array_key_exists('successId', $config) ? $config['successId'] : "";
         }
     }
 
@@ -64,6 +72,20 @@ class EmailForm extends GeneralForm
 
     public function getFormdataArray()
     {
-        // TODO: Implement getFormdataArray() method.
+        $fieldsFormdata = array();
+
+        foreach($this->formFields as $field) {
+            if($field instanceof IFormElement) {
+                $fieldsFormdata[] = $field->getDataArray();
+            }
+        }
+
+        return array(
+            "id" => $this->name,
+            "titleId" => $this->title,
+            "fields" => $fieldsFormdata,
+            "buttonId" => $this->buttonTextId,
+            "successId" => $this->successTextId
+        );
     }
 }

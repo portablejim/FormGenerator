@@ -21,17 +21,26 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
     public $testSubject;
     public $testConfig;
     public $testMailer;
+    public $testTitle;
+    public $testDescription;
+    public $testButtonId;
+    public $testSuccessId;
 
     protected function setUp() {
         $this->testName = "test1";
         $this->testTo = "test@example.com";
         $this->testSubject = "Response from online form";
+        $this->testDescription = "test_form_description";
+        $this->testButtonId = "button_string_id";
+        $this->testSuccessId = "success_message_id";
+
+        $this->testTitle = "test_form_title";
         $this->testConfig = array('type' => 'email',
-            'titleId' => 'test_form_title',
-            'descriptionId' => 'test_form_description',
+            'titleId' => $this->testTitle,
+            'descriptionId' => $this->testDescription,
             'destination' => $this->testTo,
-            'buttonStringId' => 'button_string_id',
-            'successId' => 'success_message_id');
+            'buttonStringId' => $this->testButtonId,
+            'successId' => $this->testSuccessId);
         $this->testMailer = new \testForms\DummyMailer();
     }
 
@@ -114,6 +123,27 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($this->testMailer->mailSent), "mailSent not array");
         $this->assertEquals(1, count($this->testMailer->mailSent), "mailSent is empty");
         $this->assertSame($testBody, $this->testMailer->mailSent[0]['body']);
+
+    }
+
+    public function testformFormdataIsCorrect()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testDummyArray = array("testData" => "testing");
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true, $testDummyArray));
+        $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", true, $testDummyArray));
+
+        $testFormdata = array(
+            "id" => $this->testName,
+            "titleId" => $this->testTitle,
+            "fields" => array($testDummyArray, $testDummyArray),
+            "buttonId" => $this->testButtonId,
+            "successId" => $this->testSuccessId
+        );
+        $outputFormdata = $testForm->getFormdataArray();
+
+        $this->assertSame($testFormdata, $outputFormdata);
+
 
     }
 }
