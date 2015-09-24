@@ -57,6 +57,16 @@ class FormadataHtmlFormatter implements IFormdataFormatter
 
     public function formatEmpty(ITranslator $translator, $formdata)
     {
+        return $this->format($translator, $formdata, false);
+    }
+
+    public function formatFilled(ITranslator $translator, $formdata)
+    {
+        return $this->format($translator, $formdata, true);
+    }
+
+    protected function format(ITranslator $translator, $formdata, $fill)
+    {
         if ($translator == null || !is_array($formdata)) {
             return "";
         }
@@ -73,13 +83,14 @@ class FormadataHtmlFormatter implements IFormdataFormatter
             foreach ($formdata['fields'] as $fieldArray) {
                 $placeholder = $this->translate_or_empty($translator, $fieldArray, 'promptId');
                 $placeholderId = array_key_exists('promptId', $fieldArray) ? $fieldArray['promptId'] : "";
+                $value = ($fill and array_key_exists('value', $fieldArray)) ? $fieldArray['value'] : "";
                 $widthCss = "columns";
                 if(array_key_exists('width', $fieldArray)) {
                     if(array_key_exists($fieldArray['width'], $this->elementWidths)) {
                         $widthCss = $this->elementWidths[$fieldArray['width']];
                     }
                 }
-                $fields .= sprintf($this->templateText, $widthCss, $placeholder, $placeholderId, $placeholderId, $placeholder, "");
+                $fields .= sprintf($this->templateText, $widthCss, $placeholder, $placeholderId, $placeholderId, $placeholder, $value);
             }
         }
 
@@ -90,13 +101,8 @@ class FormadataHtmlFormatter implements IFormdataFormatter
             $fields,
             $successMessage,
             $buttonText
-            );
+        );
 
         return $outputHtml;
-    }
-
-    public function formatFilled(ITranslator $translator, $formdata)
-    {
-        // TODO: Implement formatFilled() method.
     }
 }
