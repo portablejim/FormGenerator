@@ -42,7 +42,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
 		</form>';
 
         $this->templateText = '<div class="%s">
-                <label>%s<input id="%s" name="%s" type="text" placeholder="%s" /></label>
+                <label>%s<input id="%s" name="%s" type="text" placeholder="%s" value="%s"/></label>
             </div>';
     }
 
@@ -79,7 +79,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                         $widthCss = $this->elementWidths[$fieldArray['width']];
                     }
                 }
-                $fields .= sprintf($this->templateText, $widthCss, $placeholder, $placeholderId, $placeholderId, $placeholder);
+                $fields .= sprintf($this->templateText, $widthCss, $placeholder, $placeholderId, $placeholderId, $placeholder, "");
             }
         }
 

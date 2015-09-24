@@ -67,7 +67,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
                 <label>TEXTPROMPTID<!--
-                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" /><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" /><!--
              --></label>
             </div>',
             strtoupper($this->testButtonId)
