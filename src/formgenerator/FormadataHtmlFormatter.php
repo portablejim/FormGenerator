@@ -23,6 +23,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
             4 => "large-12 medium-12 columns"
         );
 
+        /** @noinspection HtmlUnknownTarget */
         $this->template = '<form id="%s" method="post" action="/%s/forms/%s">
 			<div>
 				<h2 class="text-center">%s</h2>
