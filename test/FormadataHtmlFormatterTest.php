@@ -1,9 +1,9 @@
 <?php
 
-require_once "../src/ITranslator.php";
+require_once "../src/formgenerator/ITranslator.php";
 require_once "DummyTranslator.php";
-require_once "../src/IFormdataFormatter.php";
-require_once "../src/FormadataHtmlFormatter.php";
+require_once "../src/formgenerator/IFormdataFormatter.php";
+require_once "../src/formgenerator/FormadataHtmlFormatter.php";
 
 /**
  * Created by IntelliJ IDEA.

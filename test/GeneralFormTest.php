@@ -7,9 +7,9 @@
  * Time: 3:30 PM
  */
 
-include_once "../src/IForm.php";
-include_once "../src/IFormElement.php";
-include_once "../src/GeneralForm.php";
+include_once "../src/formgenerator/IForm.php";
+include_once "../src/formgenerator/IFormElement.php";
+include_once "../src/formgenerator/GeneralForm.php";
 
 include_once "testForms/TestGeneralForm.php";
 include_once "testForms/DummyFormElement.php";

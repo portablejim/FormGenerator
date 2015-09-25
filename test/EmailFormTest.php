@@ -7,10 +7,10 @@
  * Time: 10:41 AM
  */
 
-include_once "../src/IForm.php";
-include_once "../src/IMailer.php";
-include_once "../src/GeneralForm.php";
-include_once "../src/forms/EmailForm.php";
+include_once "../src/formgenerator/IForm.php";
+include_once "../src/formgenerator/IMailer.php";
+include_once "../src/formgenerator/GeneralForm.php";
+include_once "../src/formgenerator/forms/EmailForm.php";
 
 include_once "testForms/DummyMailer.php";
 
