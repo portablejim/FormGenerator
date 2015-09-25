@@ -97,7 +97,18 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                         $widthCss = $this->elementWidths[$fieldArray['width']];
                     }
                 }
-                $fields .= sprintf($this->templateText, $widthCss, $placeholder, $placeholderId, $placeholderId, $placeholder, $value);
+                if(array_key_exists('type', $fieldArray)) {
+                    if($fieldArray['type'] === "text") {
+                        $fields .= sprintf(
+                            $this->templateText,
+                            $widthCss,
+                            $placeholder,
+                            $placeholderId,
+                            $placeholderId,
+                            $placeholder,
+                            htmlspecialchars($value));
+                    }
+                }
             }
         }
 

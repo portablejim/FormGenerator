@@ -43,7 +43,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 			</div>
 			<div>
 			    %s
-			</div>
+            </div>
 			<div class="row">
 				<p class="text-center" style="%s">%s</p>
 			</div>
@@ -54,6 +54,26 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 			</div>
 		</form>
 		';
+    }
+
+    function testNoFieldsOnNoneType() {
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            "",
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+
     }
 
     function testTextBasic() {
