@@ -45,7 +45,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 			    %s
 			</div>
 			<div class="row">
-				<p class="text-center" style="color:green;"></p>
+				<p class="text-center" style="%s">%s</p>
 			</div>
 			<div class="row">
 				<div class="large-6 large-centered columns">
@@ -70,6 +70,8 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
                  --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" /><!--
              --></label>
             </div>',
+            "color:green;",
+            "",
             strtoupper($this->testButtonId)
         );
 
@@ -79,7 +81,8 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
     }
 
-    function testTextBasicFilled() {
+    function testTextBasicFilled()
+    {
         $this->testFormData['fields']['dummy1']['type'] = "text";
         $this->testFormData['fields']['dummy1']['value'] = "test Value";
 
@@ -94,6 +97,36 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
                  --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" /><!--
              --></label>
             </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput,
+            $formatter->formatFilled($trans, $this->testFormData));
+    }
+
+    function testTextBasicFilledError() {
+        $this->testFormData['fields']['dummy1']['type'] = "text";
+        $this->testFormData['fields']['dummy1']['value'] = "test Value";
+        $this->testFormData['error'] = "test_error";
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label>TEXTPROMPTID<!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" /><!--
+             --></label>
+            </div>',
+            "color:red;",
+            "TEST_ERROR",
             strtoupper($this->testButtonId)
         );
 

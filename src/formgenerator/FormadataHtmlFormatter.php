@@ -32,7 +32,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
 			    %s
             </div>
 			<div class="row">
-				<p class="text-center" style="color:green;">%s</p>
+				<p class="text-center" style="color:%s;">%s</p>
 			</div>
 			<div class="row">
 				<div class="large-6 large-centered columns">
@@ -74,7 +74,14 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         $id = array_key_exists('id', $formdata) ? $formdata['id'] : "";
         $title = $this->translate_or_empty($translator, $formdata, 'titleId');
         $description = $this->translate_or_empty($translator, $formdata, 'descriptionId');
+        $successColor = array_key_exists("error", $formdata) ? "red" : "green";
         $successMessage = "";
+        if (array_key_exists('error', $formdata)) {
+            $successMessage = $this->translate_or_empty($translator, $formdata, 'error');
+        }
+        elseif (array_key_exists('success', $formdata)) {
+            $successMessage = $this->translate_or_empty($translator, $formdata, 'success');
+        }
         $buttonText = $this->translate_or_empty($translator, $formdata, 'buttonId');
 
 
@@ -99,6 +106,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
             $title,
             $description,
             $fields,
+            $successColor,
             $successMessage,
             $buttonText
         );
