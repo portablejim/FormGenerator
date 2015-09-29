@@ -35,6 +35,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             "successId" => $this->testSuccessId
         );
 
+        /** @noinspection HtmlUnknownTarget */
         $this->testFormOutput = '
         <form id="%s" method="post" action="/langTag/forms/%s">
 			<div>
@@ -132,7 +133,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
     function testTextBasicFilledError() {
         $this->testFormData['fields']['dummy1']['type'] = "text";
         $this->testFormData['fields']['dummy1']['value'] = "test Value";
-        $this->testFormData['error'] = "test_error";
+        $this->testFormData['error'] = ["test_error"];
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
