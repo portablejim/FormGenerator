@@ -18,13 +18,15 @@ class DummyFormElement implements IFormElement
     public $valid;
     public $fillDataCalled = array();
     public $dataArray;
+    public $errormsg;
 
-    function __construct($name, $value="", $valid=false, $dataArray=null)
+    function __construct($name, $value="", $valid=false, $dataArray=null, $errormsg="")
     {
         $this->name = $name;
         $this->value = $value;
         $this->valid = $valid;
         $this->dataArray = $dataArray;
+        $this->errormsg = $errormsg;
     }
 
     public function getName()
@@ -50,5 +52,10 @@ class DummyFormElement implements IFormElement
     public function getDataArray()
     {
         return $this->dataArray;
+    }
+
+    public function getErrorMessage()
+    {
+        return $this->errormsg;
     }
 }

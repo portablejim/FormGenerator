@@ -146,4 +146,26 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
 
     }
+
+    public function testErrorMessages()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testDummyArray = array("testData" => "testing");
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true, $testDummyArray));
+        $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", false, $testDummyArray, "test_error"));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY3", false, $testDummyArray, "test_error2"));
+
+        $testFormdata = array(
+            "id" => $this->testName,
+            "titleId" => $this->testTitle,
+            "fields" => array($testDummyArray, $testDummyArray, $testDummyArray),
+            "buttonId" => $this->testButtonId,
+            "successId" => $this->testSuccessId,
+            "error" => ["test_error", "test_error2"]
+        );
+        $outputFormdata = $testForm->getFormdataArray();
+
+        $this->assertSame($testFormdata, $outputFormdata);
+
+    }
 }

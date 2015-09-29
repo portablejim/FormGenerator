@@ -73,19 +73,31 @@ class EmailForm extends GeneralForm
     public function getFormdataArray()
     {
         $fieldsFormdata = array();
+        $error = array();
 
         foreach($this->formFields as $field) {
             if($field instanceof IFormElement) {
-                $fieldsFormdata[] = $field->getDataArray();
+                $dataArray = $field->getDataArray();
+                $fieldsFormdata[] = $dataArray;
+                if(!$field->isValid()) {
+                    $fieldError = $field->getErrorMessage();
+                    if (strlen($fieldError) > 0) {
+                        $error[] = $fieldError;
+                    }
+                }
             }
         }
 
-        return array(
+        $returnArray = array(
             "id" => $this->name,
             "titleId" => $this->title,
             "fields" => $fieldsFormdata,
             "buttonId" => $this->buttonTextId,
             "successId" => $this->successTextId
         );
+        if(count($error) > 0) {
+            $returnArray["error"] = $error;
+        }
+        return $returnArray;
     }
 }

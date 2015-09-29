@@ -19,5 +19,7 @@ interface IFormElement
 
     public function isValid();
 
+    public function getErrorMessage();
+
     public function getDataArray();
 }
