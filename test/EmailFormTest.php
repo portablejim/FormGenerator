@@ -168,4 +168,18 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $this->assertSame($testFormdata, $outputFormdata);
 
     }
+
+    public function testPrefixEmail()
+    {
+        $currentConfig = $this->testConfig;
+        $currentConfig['prefix'] = 'dummy1';
+
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $currentConfig, $this->testMailer);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
+        $testForm->submitForm("referringUrl", "1.2.3.4");
+        $this->assertEquals(1, count($this->testMailer->mailSent));
+        $this->assertEquals('DUMMY1test@example.com', $this->testMailer->mailSent[0]['to']);
+
+    }
 }

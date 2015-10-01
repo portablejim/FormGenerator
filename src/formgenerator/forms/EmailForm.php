@@ -24,6 +24,7 @@ class EmailForm extends GeneralForm
     protected $description;
     protected $buttonTextId;
     protected $successTextId;
+    protected $prefixKey;
 
     function __construct($name, $config, IMailer $mailer)
     {
@@ -38,6 +39,7 @@ class EmailForm extends GeneralForm
             $this->description = array_key_exists('descriptionId', $config) ? $config['descriptionId'] : "";
             $this->buttonTextId = array_key_exists('buttonStringId', $config) ? $config['buttonStringId'] : "";
             $this->successTextId = array_key_exists('successId', $config) ? $config['successId'] : "";
+            $this->prefixKey = array_key_exists('prefix', $config) ? $config['prefix'] : "";
         }
     }
 
@@ -58,15 +60,20 @@ class EmailForm extends GeneralForm
         if($this->isValid()) {
             $mailBody = sprintf("New response for form '%s' from %s\n\n", $this->name, $ipAddress);
 
+            $fullTo = $this->sendTo;
+
             foreach($this->formFields as $field)
             {
                 if($field instanceof IFormElement)
                 {
+                    if(strlen($this->prefixKey) > 0 && $field->getName() === $this->prefixKey) {
+                        $fullTo = $field->getValue() . $fullTo;
+                    }
                     $mailBody .= sprintf("%s: %s\n", $field->getName(), $field->getValue());
                 }
             }
 
-            $this->mailer->sendMail($this->sendTo, $this->sendSubject, $mailBody);
+            $this->mailer->sendMail($fullTo, $this->sendSubject, $mailBody);
         }
     }
 
