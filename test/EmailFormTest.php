@@ -21,6 +21,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
     public $testSubject;
     public $testConfig;
     public $testMailer;
+    public $testTranslator;
     public $testTitle;
     public $testDescription;
     public $testButtonId;
@@ -42,18 +43,19 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
             'buttonStringId' => $this->testButtonId,
             'successId' => $this->testSuccessId);
         $this->testMailer = new \testForms\DummyMailer();
+        $this->testTranslator = new DummyTranslator();
     }
 
     public function testEmptyFormIsValid()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $this->assertTrue($testForm->isValid());
 
     }
 
     public function testFormWithInvalidElementsIsInvalid()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "", false));
         $this->assertFalse($testForm->isValid());
@@ -61,7 +63,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testFormWithNoInvalidElementsIsValid()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "", true));
         $this->assertTrue($testForm->isValid());
@@ -69,7 +71,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testFormNoSubmitIfInvalid()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", false));
         $testForm->submitForm("referringUrl", "1.2.3.4");
         $this->assertEquals(0, count($this->testMailer->mailSent));
@@ -77,7 +79,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testFormSubmitsToEmail()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
@@ -86,7 +88,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testformSubmitsToCorrectAddress()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
@@ -98,7 +100,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testformSubmitsWithCorrectSubject()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
@@ -110,15 +112,15 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testformSubmitsWithCorrectBody()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
-        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
-        $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", true));
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMYVAL1", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMYVAL2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
 
         $testBody = "New response for form 'test1' from 1.2.3.4\n"
             . "\n"
-            . "dummy1: DUMMY1\n"
-            . "dummy2: DUMMY2\n";
+            . "DUMMY1: DUMMYVAL1\n"
+            . "DUMMY2: DUMMYVAL2\n";
 
         $this->assertTrue(is_array($this->testMailer->mailSent), "mailSent not array");
         $this->assertEquals(1, count($this->testMailer->mailSent), "mailSent is empty");
@@ -128,7 +130,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testformFormdataIsCorrect()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testDummyArray = array("testData" => "testing");
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true, $testDummyArray));
         $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", true, $testDummyArray));
@@ -149,7 +151,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     public function testErrorMessages()
     {
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
         $testDummyArray = array("testData" => "testing");
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true, $testDummyArray));
         $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMY2", false, $testDummyArray, "test_error"));
@@ -174,7 +176,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $currentConfig = $this->testConfig;
         $currentConfig['prefix'] = 'dummy1';
 
-        $testForm = new \formgenerator\forms\EmailForm($this->testName, $currentConfig, $this->testMailer);
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $currentConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
         $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");

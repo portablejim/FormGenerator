@@ -12,6 +12,7 @@ namespace formgenerator\forms;
 use formgenerator\GeneralForm;
 use formgenerator\IFormElement;
 use formgenerator\IMailer;
+use formgenerator\ITranslator;
 
 class EmailForm extends GeneralForm
 {
@@ -25,10 +26,15 @@ class EmailForm extends GeneralForm
     protected $buttonTextId;
     protected $successTextId;
     protected $prefixKey;
+    /**
+     * @var ITranslator
+     */
+    private $translator;
 
-    function __construct($name, $config, IMailer $mailer)
+    function __construct($name, $config, IMailer $mailer, ITranslator $translator)
     {
         $this->mailer = $mailer;
+        $this->translator = $translator;
 
         if(is_array($config))
         {
@@ -69,7 +75,7 @@ class EmailForm extends GeneralForm
                     if(strlen($this->prefixKey) > 0 && $field->getName() === $this->prefixKey) {
                         $fullTo = $field->getValue() . $fullTo;
                     }
-                    $mailBody .= sprintf("%s: %s\n", $field->getName(), $field->getValue());
+                    $mailBody .= sprintf("%s: %s\n", $this->translator->get($field->getName()), $field->getValue());
                 }
             }
 
