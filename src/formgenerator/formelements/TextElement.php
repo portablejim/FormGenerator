@@ -17,23 +17,23 @@ class TextElement implements IFormElement
     /**
      * @var
      */
-    private $name;
+    protected $name;
     /**
      * @var
      */
-    private $width;
+    protected $width;
     /**
      * @var
      */
-    private $promptTextId;
+    protected $promptTextId;
     /**
      * @var
      */
-    private $errorTextId;
+    protected $errorTextId;
     /**
      * @var
      */
-    private $required;
+    protected $required;
 
     public function __construct($name, $width, $promptTextId, $errorTextId, $required)
     {
