@@ -87,9 +87,33 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
-                <label>TEXTPROMPTID<!--
-                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" /><!--
-             --></label>
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" />
+            </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testTextBasicRequired() {
+        $this->testFormData['fields']['dummy1']['type'] = "text";
+        $this->testFormData['fields']['dummy1']['required'] = true;
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" required="" />
             </div>',
             "color:green;",
             "",
@@ -114,9 +138,8 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
-                <label>TEXTPROMPTID<!--
-                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" /><!--
-             --></label>
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" />
             </div>',
             "color:green;",
             "",
@@ -142,9 +165,8 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
-                <label>TEXTPROMPTID<!--
-                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" /><!--
-             --></label>
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="test Value" />
             </div>',
             "color:red;",
             "TEST_ERROR",
@@ -167,9 +189,33 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
-                    <label>TEXTPROMPTID<!--
-                     --><input id="textPromptId" name="textPromptId" type="email" placeholder="TEXTPROMPTID" value="" /><!--
-                 --></label>
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><input id="textPromptId" name="textPromptId" type="email" placeholder="TEXTPROMPTID" value="" />
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testEmailBasicRequired() {
+        $this->testFormData['fields']['dummy1']['type'] = "email";
+        $this->testFormData['fields']['dummy1']['required'] = true;
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><input id="textPromptId" name="textPromptId" type="email" placeholder="TEXTPROMPTID" value="" required="" />
                 </div>',
             "color:green;",
             "",
@@ -192,9 +238,33 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
-                    <label>TEXTPROMPTID<!--
-                     --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" /><!--
-                 --></label>
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" />
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testPhoneBasicRequired() {
+        $this->testFormData['fields']['dummy1']['type'] = "phone";
+        $this->testFormData['fields']['dummy1']['required'] = true;
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" required="" />
                 </div>',
             "color:green;",
             "",

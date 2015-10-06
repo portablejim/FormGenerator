@@ -45,11 +45,15 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         $this->templateError = '<p class="text-center" style="color:red;">%s</p>';
         $this->templateSuccess = '<p class="text-center" style="color:green;">%s</p>';
 
+        /** @noinspection HtmlUnknownAttribute */
         $this->templateText = '<div class="%s">
-                <label>%s<input id="%s" name="%s" type="text" placeholder="%s" value="%s"/></label>
+                <label for="%s">%s</label>
+                <input id="%s" name="%s" type="text" placeholder="%s" value="%s" %s />
             </div>';
+        /** @noinspection HtmlUnknownAttribute */
         $this->templateEmail = '<div class="%s">
-                <label>%s<input id="%s" name="%s" type="email" placeholder="%s" value="%s"/></label>
+                <label for="%s">%s</label>
+                <input id="%s" name="%s" type="email" placeholder="%s" value="%s" %s />
             </div>';
         $this->templatePhone = $this->templateText;
         /** @noinspection HtmlUnknownAttribute */
@@ -121,31 +125,37 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                         $fields .= sprintf(
                             $this->templateText,
                             $widthCss,
+                            $placeholderId,
                             $placeholder,
                             $placeholderId,
                             $placeholderId,
                             $placeholder,
-                            htmlspecialchars($value));
+                            htmlspecialchars($value),
+                            $required);
                     }
                     elseif($fieldArray['type'] === "email") {
                         $fields .= sprintf(
                             $this->templateEmail,
                             $widthCss,
+                            $placeholderId,
                             $placeholder,
                             $placeholderId,
                             $placeholderId,
                             $placeholder,
-                            htmlspecialchars($value));
+                            htmlspecialchars($value),
+                            $required);
                     }
                     elseif($fieldArray['type'] === "phone") {
                         $fields .= sprintf(
                             $this->templatePhone,
                             $widthCss,
+                            $placeholderId,
                             $placeholder,
                             $placeholderId,
                             $placeholderId,
                             $placeholder,
-                            htmlspecialchars($value));
+                            htmlspecialchars($value),
+                            $required);
                     }
                     elseif($fieldArray['type'] === "textarea") {
                         $rows = 1;
