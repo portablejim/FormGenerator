@@ -13,7 +13,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
 {
     protected $elementWidths;
     protected $template;
-    protected $templateText, $templateEmail, $templatePhone, $templateDate;
+    protected $templateText, $templateEmail, $templatePhone, $templateDate, $templateTextarea;
 
     public function __construct()
     {
@@ -52,6 +52,11 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                 <label>%s<input id="%s" name="%s" type="email" placeholder="%s" value="%s"/></label>
             </div>';
         $this->templatePhone = $this->templateText;
+        /** @noinspection HtmlUnknownAttribute */
+        $this->templateTextarea = '<div class="%s">
+                    <label for="%s">%s</label>
+                    <textarea id="%s" name="%s" rows="%d" placeholder="%s" %s >%s</textarea>
+                </div>';
     }
 
     private function translate_or_empty(ITranslator $translator, $formdata, $key)
@@ -109,6 +114,8 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                         $widthCss = $this->elementWidths[$fieldArray['width']];
                     }
                 }
+                $required = array_key_exists('required', $fieldArray) && $fieldArray['required'] === true ? 'required=""' : "";
+
                 if(array_key_exists('type', $fieldArray)) {
                     if($fieldArray['type'] === "text") {
                         $fields .= sprintf(
@@ -138,6 +145,23 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                             $placeholderId,
                             $placeholderId,
                             $placeholder,
+                            htmlspecialchars($value));
+                    }
+                    elseif($fieldArray['type'] === "textarea") {
+                        $rows = 1;
+                        if(array_key_exists('rows', $fieldArray) && is_numeric($fieldArray['rows'])) {
+                            $rows = $fieldArray['rows'];
+                        }
+                        $fields .= sprintf(
+                            $this->templateTextarea,
+                            $widthCss,
+                            $placeholderId,
+                            $placeholder,
+                            $placeholderId,
+                            $placeholderId,
+                            $rows,
+                            $placeholder,
+                            $required,
                             htmlspecialchars($value));
                     }
                 }

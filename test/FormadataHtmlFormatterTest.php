@@ -30,7 +30,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
             "titleId" => $this->testTitleId,
             "descriptionId" => $this->testDescriptionId,
             "fields" => array("dummy1" => array("type" => "none", "width" => 1, "height" => 1,
-                "isMandatory" => "false", "promptId" => $this->testPromptId)),
+                "required" => "false", "promptId" => $this->testPromptId)),
             "buttonId" => $this->testButtonId,
             "successId" => $this->testSuccessId
         );
@@ -203,6 +203,64 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $trans = new DummyTranslator();
         $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testTextareaBasic() {
+        $this->testFormData['fields']['dummy1']['type'] = "textarea";
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><textarea id="textPromptId" name="textPromptId" rows="1" placeholder="TEXTPROMPTID" ></textarea><!--
+                 -->
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testTextareaBasicRequired() {
+        $this->testFormData['fields']['dummy1']['type'] = "textarea";
+        $this->testFormData['fields']['dummy1']['required'] = true;
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label>
+                    <textarea id="textPromptId" name="textPromptId" rows="1" placeholder="TEXTPROMPTID" required=""></textarea>
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $expectedDom = new DomDocument();
+        $expectedDom->loadHTML($formattedFormOutput);
+        $expectedDom->preserveWhiteSpace = false;
+
+        $actualDom = new DomDocument();
+        $actualDom->loadHTML($formatter->formatEmpty($trans, $this->testFormData));
+        $actualDom->preserveWhiteSpace = false;
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
     }
