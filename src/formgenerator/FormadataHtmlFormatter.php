@@ -48,6 +48,9 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         $this->templateText = '<div class="%s">
                 <label>%s<input id="%s" name="%s" type="text" placeholder="%s" value="%s"/></label>
             </div>';
+        $this->templateEmail = '<div class="%s">
+                <label>%s<input id="%s" name="%s" type="email" placeholder="%s" value="%s"/></label>
+            </div>';
     }
 
     private function translate_or_empty(ITranslator $translator, $formdata, $key)
@@ -109,6 +112,16 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                     if($fieldArray['type'] === "text") {
                         $fields .= sprintf(
                             $this->templateText,
+                            $widthCss,
+                            $placeholder,
+                            $placeholderId,
+                            $placeholderId,
+                            $placeholder,
+                            htmlspecialchars($value));
+                    }
+                    elseif($fieldArray['type'] === "email") {
+                        $fields .= sprintf(
+                            $this->templateEmail,
                             $widthCss,
                             $placeholder,
                             $placeholderId,
