@@ -34,6 +34,27 @@ class DropdownElementTest extends PHPUnit_Framework_TestCase
         $this->assertSame($testData, $testElement->getDataArray());
     }
 
+    function testBasicDataValidRequired()
+    {
+        $testElement = new DropdownElement("testName", 1, "prompt", "error", true, array("a" => "testA", "b" => "testB"));
+
+        $testData = array(
+            "name" => "testName",
+            "type" => "dropdown",
+            "width" => 1,
+            "height" => 1,
+            "promptId" => "prompt",
+            "required" => true,
+            "options" => array(
+                "a" => "testA",
+                "b" => "testB"
+            ),
+            "value" => ""
+        );
+
+        $this->assertSame($testData, $testElement->getDataArray());
+    }
+
     function testValidIfEmptyAndNotRequired()
     {
         $testElement = new DropdownElement("testName", 1, "prompt", "error", false, array("a" => "testA", "b" => "testB"));

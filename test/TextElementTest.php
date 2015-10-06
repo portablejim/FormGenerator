@@ -32,6 +32,23 @@ class TextElementTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($testData, $textElem->getDataArray());
     }
 
+    function testBasicDataValidArrayRequired()
+    {
+        $textElem = new TextElement("testName", 1, "prompt", "error", true);
+
+        $testData = array(
+            "name" => "testName",
+            "type" => "text",
+            "width" => 1,
+            "height" => 1,
+            "promptId" => "prompt",
+            "required" => true,
+            "value" => ""
+        );
+
+        $this->assertSame($testData, $textElem->getDataArray());
+    }
+
     function testName()
     {
         $textElem = new TextElement("testName", 1, "prompt", "error", false);
