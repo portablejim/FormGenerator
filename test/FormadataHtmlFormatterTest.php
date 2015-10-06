@@ -181,4 +181,29 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
     }
+
+    function testPhoneBasic() {
+        $this->testFormData['fields']['dummy1']['type'] = "phone";
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label>TEXTPROMPTID<!--
+                     --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" /><!--
+                 --></label>
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
 }
