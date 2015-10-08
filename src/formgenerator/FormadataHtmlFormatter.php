@@ -93,8 +93,19 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         $description = $this->translate_or_empty($translator, $formdata, 'descriptionId');
         $messages = "";
         if (array_key_exists('error', $formdata) && is_array($formdata['error'])) {
-            foreach($formdata['error'] as $errorMessage) {
-                $candidateMessage = $translator->get($errorMessage);
+            foreach($formdata['error'] as $errorMessage => $replacements) {
+                $replaced = array();
+                foreach($replacements as $replacement) {
+                    if(array_key_exists('fields', $formdata)
+                            && array_key_exists($replacement, $formdata['fields'])
+                            && array_key_exists('promptId', $formdata['fields'][$replacement])) {
+                        $replaced[] = $formdata['fields'][$replacement]['promptId'];
+                    }
+                    else {
+                        $replaced[] = "";
+                    }
+                }
+                $candidateMessage = vsprintf($translator->get($errorMessage), $replaced);
                 if(strlen($candidateMessage) > 0) {
                     $messages .= sprintf($this->templateError, $candidateMessage);
                 }

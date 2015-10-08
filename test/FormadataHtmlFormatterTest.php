@@ -2,6 +2,7 @@
 
 require_once "../src/formgenerator/ITranslator.php";
 require_once "DummyTranslator.php";
+require_once "DummyTranslator2.php";
 require_once "../src/formgenerator/IFormdataFormatter.php";
 require_once "../src/formgenerator/FormadataHtmlFormatter.php";
 
@@ -156,7 +157,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
     function testTextBasicFilledError() {
         $this->testFormData['fields']['dummy1']['type'] = "text";
         $this->testFormData['fields']['dummy1']['value'] = "test Value";
-        $this->testFormData['error'] = ["test_error"];
+        $this->testFormData['error'] = ["test_error" => ['dummy1']];
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
@@ -333,5 +334,31 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $actualDom->preserveWhiteSpace = false;
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testTextBasicFilledErrorFormatted() {
+        $this->testFormData['fields']['dummy1']['type'] = "text";
+        $this->testFormData['fields']['dummy1']['value'] = "test Value";
+        $this->testFormData['error'] = ["errors%" => ['dummy1']];
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strrev($this->testTitleId),
+            strrev($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label for="textPromptId">dItpmorPtxet</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="dItpmorPtxet" value="test Value" />
+            </div>',
+            "color:red;",
+            "textPromptIdrorre",
+            "dInottuBtset"
+        );
+
+        $trans = new DummyTranslator2();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));
     }
 }

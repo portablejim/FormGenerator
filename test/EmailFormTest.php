@@ -163,7 +163,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
             "fields" => array($testDummyArray, $testDummyArray, $testDummyArray),
             "buttonId" => $this->testButtonId,
             "successId" => $this->testSuccessId,
-            "error" => ["test_error", "test_error2"]
+            "error" => ["test_error" => ["dummy2"], "test_error2" => ["dummy3"]]
         );
         $outputFormdata = $testForm->getFormdataArray();
 

@@ -95,7 +95,7 @@ class EmailForm extends GeneralForm
                 if(!$field->isValid()) {
                     $fieldError = $field->getErrorMessage();
                     if (strlen($fieldError) > 0) {
-                        $error[] = $fieldError;
+                        $error[$fieldError] = array($field->getName());
                     }
                 }
             }
