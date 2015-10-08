@@ -83,4 +83,10 @@ class DropdownElementTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($testElement1->isValid());
         $this->assertFalse($testElement2->isValid());
     }
+
+    function testErrorMessageIfInvalidEmptyAndRequired()
+    {
+        $testElement = new DropdownElement("testName", 1, "prompt", "error", true, array("a" => "testA", "b" => "testB"));
+        $this->assertEquals("error", $testElement->getErrorMessage());
+    }
 }
