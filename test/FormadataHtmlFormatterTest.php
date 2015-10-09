@@ -179,6 +179,31 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));
     }
+    function testTextBasicEmptyNoError() {
+        $this->testFormData['fields']['dummy1']['type'] = "text";
+        $this->testFormData['fields']['dummy1']['value'] = "test Value";
+        $this->testFormData['error'] = ["test_error" => ['dummy1']];
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" />
+            </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
 
     function testEmailBasic() {
         $this->testFormData['fields']['dummy1']['type'] = "email";
@@ -357,6 +382,98 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         );
 
         $trans = new DummyTranslator2();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));
+    }
+
+    function testDropdownBasic() {
+        $this->testFormData['fields']['dummy1']['type'] = "dropdown";
+        $this->testFormData['fields']['dummy1']['options'] = array("a" => "aopt", "b" => "bopt");
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><select id="textPromptId" name="textPromptId">
+						<option value="" disabled="" style="display:none;" selected="selected">TEXTPROMPTID</option>
+						<option value="a">AOPT</option>
+						<option value="b">BOPT</option>
+					</select><!--
+                 -->
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testDropdownBasicRequired() {
+        $this->testFormData['fields']['dummy1']['type'] = "dropdown";
+        $this->testFormData['fields']['dummy1']['required'] = true;
+        $this->testFormData['fields']['dummy1']['options'] = array("a" => "aopt", "b" => "bopt");
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><select id="textPromptId" name="textPromptId" required="">
+						<option value="" disabled="" style="display:none;" selected="selected">TEXTPROMPTID</option>
+						<option value="a">AOPT</option>
+						<option value="b">BOPT</option>
+					</select><!--
+                 -->
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+    }
+
+    function testDropdownBasicFilled() {
+        $this->testFormData['fields']['dummy1']['type'] = "dropdown";
+        $this->testFormData['fields']['dummy1']['options'] = array("a" => "aopt", "b" => "bopt");
+        $this->testFormData['fields']['dummy1']['value'] = "a";
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                    <label for="textPromptId">TEXTPROMPTID</label><!--
+                     --><select id="textPromptId" name="textPromptId">
+						<option value="" disabled="" style="display:none;" selected="selected">TEXTPROMPTID</option>
+						<option value="a" selected="selected">AOPT</option>
+						<option value="b">BOPT</option>
+					</select><!--
+                 -->
+                </div>',
+            "color:green;",
+            "",
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
         $formatter = new \formgenerator\FormadataHtmlFormatter();
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));

@@ -13,7 +13,8 @@ class FormadataHtmlFormatter implements IFormdataFormatter
 {
     protected $elementWidths;
     protected $template;
-    protected $templateText, $templateEmail, $templatePhone, $templateDate, $templateTextarea;
+    protected $templateText, $templateEmail, $templatePhone, $templateDate,
+        $templateTextarea, $templateDropdown, $templateDropdownOption;
 
     public function __construct()
     {
@@ -61,6 +62,16 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                     <label for="%s">%s</label>
                     <textarea id="%s" name="%s" rows="%d" placeholder="%s" %s >%s</textarea>
                 </div>';
+        /** @noinspection HtmlUnknownAttribute */
+        $this->templateDropdown = '<div class="%s">
+                    <label for="%s">%s</label>
+                     <select id="%s" name="%s" %s >
+						<option value="" disabled="" style="display:none;" selected="selected">%s</option>
+						%s
+					</select>
+                </div>';
+        /** @noinspection HtmlUnknownAttribute */
+        $this->templateDropdownOption = '<option value="%s" %s>%s</option>' . "\n";
     }
 
     private function translate_or_empty(ITranslator $translator, $formdata, $key)
@@ -92,7 +103,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         $title = $this->translate_or_empty($translator, $formdata, 'titleId');
         $description = $this->translate_or_empty($translator, $formdata, 'descriptionId');
         $messages = "";
-        if (array_key_exists('error', $formdata) && is_array($formdata['error'])) {
+        if ($fill && array_key_exists('error', $formdata) && is_array($formdata['error'])) {
             foreach($formdata['error'] as $errorMessage => $replacements) {
                 $replaced = array();
                 foreach($replacements as $replacement) {
@@ -184,6 +195,30 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                             $placeholder,
                             $required,
                             htmlspecialchars($value));
+                    }
+                    elseif($fieldArray['type'] === "dropdown") {
+                        $options = "";
+                        if(array_key_exists('options', $fieldArray) && is_array($fieldArray['options'])) {
+                            foreach($fieldArray['options'] as $optKey => $optValue) {
+                                $selected = "";
+                                if($fill && array_key_exists('value', $fieldArray)) {
+                                    $selected = $fieldArray['value'] === $optKey ? 'selected="selected"' : "";
+                                }
+                                $options .= sprintf($this->templateDropdownOption, $optKey, $selected, $translator->get($optValue));
+                            }
+                        }
+                        $fields .= sprintf(
+                            $this->templateDropdown,
+                            $widthCss,
+                            $placeholderId,
+                            $placeholder,
+                            $placeholderId,
+                            $placeholderId,
+                            $required,
+                            $placeholder,
+                            $options
+                        );
+
                     }
                 }
             }
