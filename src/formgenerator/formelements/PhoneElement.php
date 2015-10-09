@@ -9,7 +9,7 @@
 namespace formgenerator\formelements;
 
 
-class TextareaElement extends TextElement
+class PhoneElement extends TextElement
 {
 
     public function isValid()

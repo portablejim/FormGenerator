@@ -8,6 +8,11 @@
 
 namespace formgenerator;
 
+use formgenerator\formelements\EmailElement;
+use formgenerator\formelements\PhoneElement;
+use formgenerator\formelements\TextElement;
+use formgenerator\forms\EmailForm;
+
 include_once "loadall.php";
 
 class FormFactory
@@ -75,18 +80,105 @@ class FormFactory
         return $data;
     }
 
-    public function makeForm($formName)
+    function test_for_array_keys($array, $keys) {
+        foreach($keys as $key) {
+            if(!array_key_exists($key, $array)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function makeForm($formName, $translatorEmail, $mailer)
     {
+
         $iniFilename = $this->join_paths($this->folder, $formName . ".ini");
 
         if(file_exists($iniFilename)) {
             $iniFile = $this->parse_ini_file_multi($iniFilename, true);
 
-            $formType = $iniFile['type'];
-            if ($formType === "email") {
+            $newForm = null;
+
+            if (array_key_exists("form", $iniFile)) {
+                $formType = $iniFile["form"]["type"];
+                if ($formType === "email") {
+                    $newForm = new EmailForm($formName, $iniFile["form"], $mailer, $translatorEmail);
+                }
+            }
+
+            if($newForm != null && array_key_exists("fields", $iniFile)) {
+                assert($newForm instanceof IForm);
+                foreach($iniFile["fields"] as $fieldName => $fieldSetting) {
+                    $type = array_key_exists("type", $fieldSetting) ? $fieldSetting["type"] : "";
+                    if($type === "text" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required"))) {
+                        $newField = new TextElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"]
+                            );
+                        $newForm->addField($newField);
+                    }
+                    elseif($type === "textarea" && $this->test_for_array_keys($fieldSetting, array("name", "width", "height", "promptId", "errorId", "required"))) {
+                        $newField = new TextElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["height"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"]
+                        );
+                        $newForm->addField($newField);
+                    }
+                    elseif($type === "phone" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required"))) {
+                        $newField = new PhoneElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"]
+                        );
+                        $newForm->addField($newField);
+                    }
+                    elseif($type === "email" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required"))) {
+                        $newField = new EmailElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"]
+                        );
+                        $newForm->addField($newField);
+                    }
+                    elseif($type === "phone" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required"))) {
+                        $newField = new PhoneElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"]
+                        );
+                        $newForm->addField($newField);
+                    }
+                    elseif($type === "dropdown" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required", "options"))) {
+                        $newField = new PhoneElement(
+                            $fieldSetting["name"],
+                            $fieldSetting["width"],
+                            $fieldSetting["promptId"],
+                            $fieldSetting["errorId"],
+                            $fieldSetting["required"],
+                            $fieldSetting["options"]
+                        );
+                        $newForm->addField($newField);
+                    }
+                }
 
             }
+            return $newForm;
         }
+
+        return null;
     }
 
 }
