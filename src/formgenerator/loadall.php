@@ -18,4 +18,5 @@ include_once "formelements/TextElement.php";
 include_once "formelements/EmailElement.php";
 include_once "formelements/PhoneElement.php";
 include_once "formelements/TextareaElement.php";
+include_once "formelements/DropdownElement.php";
 include_once "FormFactory.php";

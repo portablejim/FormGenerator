@@ -8,6 +8,7 @@
 
 namespace formgenerator;
 
+use formgenerator\formelements\DropdownElement;
 use formgenerator\formelements\EmailElement;
 use formgenerator\formelements\PhoneElement;
 use formgenerator\formelements\TextElement;
@@ -162,7 +163,7 @@ class FormFactory
                         $newForm->addField($newField);
                     }
                     elseif($type === "dropdown" && $this->test_for_array_keys($fieldSetting, array("name", "width", "promptId", "errorId", "required", "options"))) {
-                        $newField = new PhoneElement(
+                        $newField = new DropdownElement(
                             $fieldSetting["name"],
                             $fieldSetting["width"],
                             $fieldSetting["promptId"],
