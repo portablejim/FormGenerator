@@ -11,6 +11,7 @@ namespace formgenerator;
 abstract class GeneralForm implements IForm
 {
     protected $formFields = array();
+    protected $success = false;
 
     /**
      * @param IFormElement $element Field/Element to add to form's field list.
@@ -50,6 +51,10 @@ abstract class GeneralForm implements IForm
     public function fillFields(array $formData)
     {
         assert(is_array($this->formFields));
+
+        if(array_key_exists("success", $formData)) {
+            $this->success = true;
+        }
 
         foreach($this->formFields as $field)
         {

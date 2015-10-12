@@ -485,5 +485,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formatter = new \formgenerator\FormadataHtmlFormatter();
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));
     }
 }

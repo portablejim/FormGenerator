@@ -111,6 +111,9 @@ class EmailForm extends GeneralForm
         if(count($error) > 0) {
             $returnArray["error"] = $error;
         }
+        if($this->success) {
+            $returnArray["success"] = $this->successTextId;
+        }
         return $returnArray;
     }
 }

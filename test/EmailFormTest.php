@@ -184,4 +184,13 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('DUMMY1test@example.com', $this->testMailer->mailSent[0]['to']);
 
     }
+
+    public function testEmptyFormSuccess()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
+        $testForm->fillFields(array("success" => "success"));
+        $formData = $testForm->getFormdataArray();
+        $this->assertSame($this->testSuccessId, $formData["success"]);
+
+    }
 }

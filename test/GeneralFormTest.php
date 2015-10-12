@@ -94,4 +94,30 @@ class GeneralFormTest extends PHPUnit_Framework_TestCase
         $this->assertSame($testField1->fillDataCalled, array($data1));
         $this->assertSame($testField2->fillDataCalled, array($data2));
     }
+
+    public function testFillDataNoSuccess()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $testFormData = array();
+        $testForm->fillFields($testFormData);
+
+        $this->assertFalse($testForm->getSuccess());
+    }
+
+    public function testFillDataSuccess()
+    {
+        $testForm = new testForms\TestGeneralForm();
+        $testField1 = new \testForms\DummyFormElement("dummy1");
+        $testField2 = new \testForms\DummyFormElement("dummy2");
+        $testForm->addField($testField1);
+        $testForm->addField($testField2);
+        $testFormData = array("success" => "success");
+        $testForm->fillFields($testFormData);
+
+        $this->assertTrue($testForm->getSuccess());
+    }
 }

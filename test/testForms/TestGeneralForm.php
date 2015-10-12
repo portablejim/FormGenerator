@@ -28,4 +28,9 @@ class TestGeneralForm extends GeneralForm
     {
         // TODO: Implement getFormdataArray() method.
     }
+
+    public function getSuccess()
+    {
+        return $this->success;
+    }
 }
