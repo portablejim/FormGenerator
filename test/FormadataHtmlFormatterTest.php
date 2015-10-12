@@ -38,7 +38,7 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         /** @noinspection HtmlUnknownTarget */
         $this->testFormOutput = '
-        <form id="%s" method="post" action="/langTag/forms/%s">
+        <form id="%s" method="post" action="">
 			<div>
 				<h2 class="text-center">%s</h2>
 				<p class="text-center">%s</p>
@@ -62,7 +62,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             "",
@@ -83,7 +82,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -109,7 +107,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -134,7 +131,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -162,7 +158,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -187,7 +182,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -210,7 +204,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -236,7 +229,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -259,7 +251,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -285,7 +276,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -308,7 +298,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -334,7 +323,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -369,7 +357,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strrev($this->testTitleId),
             strrev($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -393,7 +380,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
 
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
-            $this->testId,
             $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
@@ -425,7 +411,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -456,7 +441,6 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formattedFormOutput = sprintf(
             $this->testFormOutput,
             $this->testId,
-            $this->testId,
             strtoupper($this->testTitleId),
             strtoupper($this->testDescriptionId),
             '<div class="large-3 medium-6 columns">
@@ -477,5 +461,29 @@ class FormadataHtmlFormatterTest extends PHPUnit_Framework_TestCase
         $formatter = new \formgenerator\FormadataHtmlFormatter();
 
         $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatFilled($trans, $this->testFormData));
+    }
+
+    function testSuccessMessage() {
+        $this->testFormData['fields']['dummy1']['type'] = "text";
+        $this->testFormData['success'] = "$this->testSuccessId";
+
+        $formattedFormOutput = sprintf(
+            $this->testFormOutput,
+            $this->testId,
+            strtoupper($this->testTitleId),
+            strtoupper($this->testDescriptionId),
+            '<div class="large-3 medium-6 columns">
+                <label for="textPromptId">TEXTPROMPTID</label><!--
+                 --><input id="textPromptId" name="textPromptId" type="text" placeholder="TEXTPROMPTID" value="" />
+            </div>',
+            "color:green;",
+            strtoupper($this->testSuccessId),
+            strtoupper($this->testButtonId)
+        );
+
+        $trans = new DummyTranslator();
+        $formatter = new \formgenerator\FormadataHtmlFormatter();
+
+        $this->assertXmlStringEqualsXmlString($formattedFormOutput, $formatter->formatEmpty($trans, $this->testFormData));
     }
 }

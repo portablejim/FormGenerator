@@ -25,7 +25,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         );
 
         /** @noinspection HtmlUnknownTarget */
-        $this->template = '<form id="%s" method="post" action="/%s/forms/%s">
+        $this->template = '<form id="%s" method="post" action="">
 			<div>
 				<h2 class="text-center">%s</h2>
 				<p class="text-center">%s</p>
@@ -225,7 +225,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
         }
 
         $outputHtml = sprintf($this->template,
-            $id, $translator->langTag(), $id,
+            $id,
             $title,
             $description,
             $fields,
