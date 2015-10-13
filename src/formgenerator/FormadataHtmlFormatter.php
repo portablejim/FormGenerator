@@ -140,7 +140,7 @@ class FormadataHtmlFormatter implements IFormdataFormatter
                         $widthCss = $this->elementWidths[$fieldArray['width']];
                     }
                 }
-                $required = array_key_exists('required', $fieldArray) && $fieldArray['required'] === true ? 'required=""' : "";
+                $required = array_key_exists('required', $fieldArray) && $fieldArray['required'] === true || $fieldArray['required'] === "1" ? 'required=""' : "";
 
                 if(array_key_exists('type', $fieldArray)) {
                     if($fieldArray['type'] === "text") {
