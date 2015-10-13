@@ -39,7 +39,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $this->testConfig = array('type' => 'email',
             'titleId' => $this->testTitle,
             'descriptionId' => $this->testDescription,
-            'destination' => $this->testTo,
+            'toAddress' => $this->testTo,
             'buttonStringId' => $this->testButtonId,
             'successId' => $this->testSuccessId);
         $this->testMailer = new \testForms\DummyMailer();
@@ -117,7 +117,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMYVAL2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
 
-        $testBody = "New response for form 'test1' from 1.2.3.4\n"
+        $testBody = "New response for form 'test1' with referrer of referringUrl from 1.2.3.4\n"
             . "\n"
             . "DUMMY1: DUMMYVAL1\n"
             . "DUMMY2: DUMMYVAL2\n";

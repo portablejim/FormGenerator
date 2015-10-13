@@ -38,7 +38,7 @@ class EmailForm extends GeneralForm
 
         if(is_array($config))
         {
-            $this->sendTo = array_key_exists('destination', $config) ? $config['destination'] : "";
+            $this->sendTo = array_key_exists('toAddress', $config) ? $config['toAddress'] : "";
             $this->sendSubject = "Response from online form";
             $this->name = $name;
             $this->title = array_key_exists('titleId', $config) ? $config['titleId'] : "";
