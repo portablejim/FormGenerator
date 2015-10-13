@@ -142,7 +142,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testForm->addField(new \testForms\DummyFormElement("dummy2", "DUMMYVAL2", true));
         $testForm->submitForm("referringUrl", "1.2.3.4");
 
-        $testBody = "New response for form 'test1' with referrer of referringUrl from 1.2.3.4\n"
+        $testBody = "New response for form 'test1' from referringUrl with IP address of 1.2.3.4\n"
             . "\n"
             . "DUMMY1: DUMMYVAL1\n"
             . "DUMMY2: DUMMYVAL2\n";
