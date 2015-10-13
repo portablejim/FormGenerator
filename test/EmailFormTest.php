@@ -98,6 +98,31 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testformSubmitsFromCorrectAddressBlank()
+    {
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
+        $testForm->submitForm("referringUrl", "1.2.3.4");
+        $this->assertTrue(is_array($this->testMailer->mailSent), "mailSent not array");
+        $this->assertEquals(1, count($this->testMailer->mailSent), "mailSent is empty");
+        $this->assertSame("", $this->testMailer->mailSent[0]['from']);
+
+    }
+
+    public function testformSubmitsFromCorrectAddressFilled()
+    {
+        $currentConfig = $this->testConfig;
+        $currentConfig['fromField'] = 'dummy3';
+
+        $testForm = new \formgenerator\forms\EmailForm($this->testName, $currentConfig, $this->testMailer, $this->testTranslator);
+        $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));
+        $testForm->addField(new \testForms\DummyFormElement("dummy3", "DUMMY2", true));
+        $testForm->submitForm("referringUrl", "1.2.3.4");
+        $this->assertSame("DUMMY2", $this->testMailer->mailSent[0]['from']);
+
+    }
+
     public function testformSubmitsWithCorrectSubject()
     {
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $this->testConfig, $this->testMailer, $this->testTranslator);

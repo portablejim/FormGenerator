@@ -11,5 +11,5 @@ namespace formgenerator;
 
 interface IMailer
 {
-    function sendMail($to, $subject, $body);
+    function sendMail($from, $to, $subject, $body);
 }

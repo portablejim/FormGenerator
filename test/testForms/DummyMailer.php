@@ -15,8 +15,8 @@ class DummyMailer implements IMailer
 {
     public $mailSent = array();
 
-    function sendMail($to, $subject, $body)
+    function sendMail($from, $to, $subject, $body)
     {
-        $this->mailSent[] = array('to' => $to, 'subject' => $subject, 'body' => $body);
+        $this->mailSent[] = array('from' => $from, 'to' => $to, 'subject' => $subject, 'body' => $body);
     }
 }

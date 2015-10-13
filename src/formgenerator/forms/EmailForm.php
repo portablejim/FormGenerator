@@ -19,6 +19,7 @@ class EmailForm extends GeneralForm
     protected $mailer;
 
     protected $sendTo;
+    protected $sendFrom;
     protected $sendSubject;
     protected $name;
     protected $title;
@@ -39,6 +40,7 @@ class EmailForm extends GeneralForm
         if(is_array($config))
         {
             $this->sendTo = array_key_exists('toAddress', $config) ? $config['toAddress'] : "";
+            $this->sendFrom = array_key_exists('fromField', $config) ? $config['fromField'] : "";
             $this->sendSubject = "Response from online form";
             $this->name = $name;
             $this->title = array_key_exists('titleId', $config) ? $config['titleId'] : "";
@@ -67,6 +69,7 @@ class EmailForm extends GeneralForm
             $mailBody = sprintf("New response for form '%s' with referrer of %s from %s\n\n", $this->name, $referringUrl, $ipAddress);
 
             $fullTo = $this->sendTo;
+            $fullFrom = "";
 
             foreach($this->formFields as $field)
             {
@@ -75,11 +78,14 @@ class EmailForm extends GeneralForm
                     if(strlen($this->prefixKey) > 0 && $field->getName() === $this->prefixKey) {
                         $fullTo = $field->getValue() . $fullTo;
                     }
+                    if(strlen($this->sendFrom) > 0 && $field->getName() == $this->sendFrom) {
+                        $fullFrom = $field->getValue();
+                    }
                     $mailBody .= sprintf("%s: %s\n", $this->translator->get($field->getName()), $field->getValue());
                 }
             }
 
-            $this->mailer->sendMail($fullTo, $this->sendSubject, $mailBody);
+            $this->mailer->sendMail($fullFrom, $fullTo, $this->sendSubject, $mailBody);
         }
     }
 
