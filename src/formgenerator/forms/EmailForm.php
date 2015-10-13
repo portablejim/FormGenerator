@@ -104,6 +104,7 @@ class EmailForm extends GeneralForm
         $returnArray = array(
             "id" => $this->name,
             "titleId" => $this->title,
+            "descriptionId" => $this->description,
             "fields" => $fieldsFormdata,
             "buttonId" => $this->buttonTextId,
             "successId" => $this->successTextId

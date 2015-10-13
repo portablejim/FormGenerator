@@ -138,6 +138,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testFormdata = array(
             "id" => $this->testName,
             "titleId" => $this->testTitle,
+            "descriptionId" => $this->testDescription,
             "fields" => array($testDummyArray, $testDummyArray),
             "buttonId" => $this->testButtonId,
             "successId" => $this->testSuccessId
@@ -160,6 +161,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
         $testFormdata = array(
             "id" => $this->testName,
             "titleId" => $this->testTitle,
+            "descriptionId" => $this->testDescription,
             "fields" => array($testDummyArray, $testDummyArray, $testDummyArray),
             "buttonId" => $this->testButtonId,
             "successId" => $this->testSuccessId,
