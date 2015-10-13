@@ -30,7 +30,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
     protected function setUp() {
         $this->testName = "test1";
         $this->testTo = "test@example.com";
-        $this->testSubject = "Response from online form";
+        $this->testSubject = "Response from 'test1' form";
         $this->testDescription = "test_form_description";
         $this->testButtonId = "button_string_id";
         $this->testSuccessId = "success_message_id";

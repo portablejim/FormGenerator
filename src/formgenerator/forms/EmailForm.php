@@ -41,7 +41,7 @@ class EmailForm extends GeneralForm
         {
             $this->sendTo = array_key_exists('toAddress', $config) ? $config['toAddress'] : "";
             $this->sendFrom = array_key_exists('fromField', $config) ? $config['fromField'] : "";
-            $this->sendSubject = "Response from online form";
+            $this->sendSubject = "Response from '%s' form";
             $this->name = $name;
             $this->title = array_key_exists('titleId', $config) ? $config['titleId'] : "";
             $this->description = array_key_exists('descriptionId', $config) ? $config['descriptionId'] : "";
@@ -70,6 +70,7 @@ class EmailForm extends GeneralForm
 
             $fullTo = $this->sendTo;
             $fullFrom = "";
+            $fullSubject = sprintf($this->sendSubject, $this->name);
 
             foreach($this->formFields as $field)
             {
@@ -85,7 +86,7 @@ class EmailForm extends GeneralForm
                 }
             }
 
-            $this->mailer->sendMail($fullFrom, $fullTo, $this->sendSubject, $mailBody);
+            $this->mailer->sendMail($fullFrom, $fullTo, $fullSubject, $mailBody);
         }
     }
 
