@@ -11,6 +11,7 @@ namespace formgenerator;
 use formgenerator\formelements\DropdownElement;
 use formgenerator\formelements\EmailElement;
 use formgenerator\formelements\PhoneElement;
+use formgenerator\formelements\TextareaElement;
 use formgenerator\formelements\TextElement;
 use formgenerator\forms\EmailForm;
 
@@ -122,7 +123,7 @@ class FormFactory
                         $newForm->addField($newField);
                     }
                     elseif($type === "textarea" && $this->test_for_array_keys($fieldSetting, array("name", "width", "height", "promptId", "errorId", "required"))) {
-                        $newField = new TextElement(
+                        $newField = new TextareaElement(
                             $fieldSetting["name"],
                             $fieldSetting["width"],
                             $fieldSetting["height"],
