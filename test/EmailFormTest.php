@@ -176,7 +176,7 @@ class EmailFormTest extends PHPUnit_Framework_TestCase
     public function testPrefixEmail()
     {
         $currentConfig = $this->testConfig;
-        $currentConfig['prefix'] = 'dummy1';
+        $currentConfig['toPrefix'] = 'dummy1';
 
         $testForm = new \formgenerator\forms\EmailForm($this->testName, $currentConfig, $this->testMailer, $this->testTranslator);
         $testForm->addField(new \testForms\DummyFormElement("dummy1", "DUMMY1", true));

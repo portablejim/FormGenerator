@@ -45,7 +45,7 @@ class EmailForm extends GeneralForm
             $this->description = array_key_exists('descriptionId', $config) ? $config['descriptionId'] : "";
             $this->buttonTextId = array_key_exists('buttonStringId', $config) ? $config['buttonStringId'] : "";
             $this->successTextId = array_key_exists('successId', $config) ? $config['successId'] : "";
-            $this->prefixKey = array_key_exists('prefix', $config) ? $config['prefix'] : "";
+            $this->prefixKey = array_key_exists('toPrefix', $config) ? $config['toPrefix'] : "";
         }
     }
 
